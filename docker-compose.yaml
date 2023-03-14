@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - ./data:/data/db
+      - ./logs:/var/log/mongodb
+      - ./mongod.conf:/etc/mongod.conf
+    ports:
+      - "27017:27017"

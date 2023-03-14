@@ -1,0 +1,102 @@
+[
+    {
+        "username": "user1",
+        "password": "password1",
+        "roles": [
+            {
+                "role": "readWrite",
+                "db": "testdb"
+            }
+        ]
+    },
+    {
+        "username": "user2",
+        "password": "password2",
+        "roles": [
+            {
+                "role": "readWrite",
+                "db": "testdb"
+            }
+        ]
+    },
+    {
+        "username": "user3",
+        "password": "password3",
+        "roles": [
+            {
+                "role": "read",
+                "db": "testdb"
+            }
+        ]
+    },
+    {
+        "username": "user4",
+        "password": "password4",
+        "roles": [
+            {
+                "role": "readWrite",
+                "db": "testdb2"
+            }
+        ]
+    },
+    {
+        "username": "user5",
+        "password": "password5",
+        "roles": [
+            {
+                "role": "read",
+                "db": "testdb2"
+            }
+        ]
+    },
+    {
+        "username": "user6",
+        "password": "password6",
+        "roles": [
+            {
+                "role": "readWrite",
+                "db": "testdb3"
+            }
+        ]
+    },
+    {
+        "username": "user7",
+        "password": "password7",
+        "roles": [
+            {
+                "role": "read",
+                "db": "testdb3"
+            }
+        ]
+    },
+    {
+        "username": "user8",
+        "password": "password8",
+        "roles": [
+            {
+                "role": "dbAdmin",
+                "db": "testdb"
+            }
+        ]
+    },
+    {
+        "username": "user9",
+        "password": "password9",
+        "roles": [
+            {
+                "role": "dbAdmin",
+                "db": "testdb2"
+            }
+        ]
+    },
+    {
+        "username": "user10",
+        "password": "password10",
+        "roles": [
+            {
+                "role": "dbAdmin",
+                "db": "testdb3"
+            }
+        ]
+    }
+]
