@@ -1,12 +1,79 @@
-version: "3"
+version: "3.8"
 
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
+  mongo1:
+    image: mongo:7
+    container_name: mongo1
+    hostname: mongo1
+    networks:
+      - mongo-rs
     volumes:
-      - ./data:/data/db
-      - ./logs:/var/log/mongodb
-      - ./mongod.conf:/etc/mongod.conf
+      - ./data/mongo1:/data/db
+      - ./mongod.conf:/etc/mongod.conf:ro
+    command: ["mongod", "--config", "/etc/mongod.conf"]
     ports:
       - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mongo2:
+    image: mongo:7
+    container_name: mongo2
+    hostname: mongo2
+    networks:
+      - mongo-rs
+    volumes:
+      - ./data/mongo2:/data/db
+      - ./mongod.conf:/etc/mongod.conf:ro
+    command: ["mongod", "--config", "/etc/mongod.conf"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      - mongo1
+
+  mongo3:
+    image: mongo:7
+    container_name: mongo3
+    hostname: mongo3
+    networks:
+      - mongo-rs
+    volumes:
+      - ./data/mongo3:/data/db
+      - ./mongod.conf:/etc/mongod.conf:ro
+    command: ["mongod", "--config", "/etc/mongod.conf"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      - mongo1
+
+  mongo-setup:
+    image: mongo:7
+    container_name: mongo-setup
+    networks:
+      - mongo-rs
+    depends_on:
+      mongo1:
+        condition: service_healthy
+      mongo2:
+        condition: service_healthy
+      mongo3:
+        condition: service_healthy
+    volumes:
+      - ./scripts/init-replica.js:/init-replica.js:ro
+    entrypoint: ["bash", "-lc"]
+    command: >-
+      "mongosh --quiet --host mongo1:27017 /init-replica.js && echo 'Replica set initialized' || echo 'Replica set already initialized'"
+    restart: "no"
+
+networks:
+  mongo-rs:
+    driver: bridge
